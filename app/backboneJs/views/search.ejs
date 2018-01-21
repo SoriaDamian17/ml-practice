@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie10 lt-ie9 ie8"><![endif]-->
+<!--[if IE 9]><html class="no-js lt-ie10 ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="es-AR" ng-app="app"><!--<![endif]-->
+  <head>
+    <% include ./partials/header %>
+  </head>
+  <body id="app">
+    <% include ./partials/search %>
+      <main role="main">
+        <section class="container container-fluid" role="product" data-type="list">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4 class="page-title text-dark">Listado de Productos buscados</h4>
+                </div>
+            </div>
+            <% include ./partials/breadcrumb %> 
+            <div id="main" class="row"></div><!--end row-->
+        </section>
+      </main>
+    <% include ./partials/footer %>
+    <script>
+        var search = getParameterByName('search');
+        console.log(search);
+        new window.meli.ItemsView(search);
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+    </script>
+  </body>
+</html>

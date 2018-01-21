@@ -1,0 +1,52 @@
+<div class="card-box col-md-12" itemscope itemtype="https://schema.org/Product">
+    <meta itemprop="url" content="<%= item.permalink %>">
+    <div class="float-left col-xs-12 col-md-8">
+        <div id="image">
+            <span class="view-fullscreen">
+                <img itemprop="image" src="<%= item.picture %>" class="img-responsive" title="<%= item.title %>" alt="<%= item.title %>" role="presentation"/>
+            </span>
+        </div>
+        <div class="clearfix"></div>
+        <!-- Tab links -->
+        <div class="tab">
+            <button class="tablinks btn-primary col-xs-6 col-md-6" onclick="openCity(event, 'product_comments')">Descripción</button>
+            <button class="tablinks btn-primary col-xs-6 col-md-6" onclick="openCity(event, 'questions')">Preguntas</button>
+        </div>
+
+        <div id="product_comments" class="tabcontent active" itemprop="description" style="display:block;">
+            <p><%= item.description %></p>
+        </div>
+        <!-- Tab content -->
+        <div id="questions" class="tabcontent" >
+            <h3 class="font-14">Cliente Prueba</h3>
+            <p class="text-success"><strong class="text-dark">Pregunta:</strong>Hola, Tenes Stock?</p>
+            <p class="text-dark"><strong>Mensaje:</strong>Hola, Me quede sin stock.Saludos</p>
+        </div>
+    </div>
+    <div class="float-left col-xs-12 col-md-4">
+        <span class="text-xs-center"><%= item.conditionAndSoldQuantity %></span>
+        <h1 itemprop="name" class="jumbotron-heading text-dark text-xs-center font-20" ><%= item.title %></h1>
+        <fieldset class="m-t-15 m-b-15" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+            <link itemprop="availability" href="https://schema.org/InStock"/>
+            <span itemprop="price" content="<%= item.price %>.<%= item.decimals %>" class="price float-left"><%= item.price %><sup><%= item.decimals %></sup></span>
+            <meta itemprop="priceCurrency" content="{{price.currency}}" />
+        </fieldset>
+        <fieldset class="m-t-15 m-b-15 text-md-center clearfix">
+                <span class="">
+                    <img src="/static/img/ic_shipping@2x.png.png" alt="Mercado Envio" itemprom="image"/>
+                    <% if(item.free_shipping) { %>
+                        Mercado Envio
+                    <% }else{ %>
+                        No tiene Envio
+                    <% } %>
+                </span>
+        </fieldset>
+        <fieldset class="clearfix">
+          <p id="quantity_wanted_p">
+            <input class="form-control-lg col-md-12 float-left " type="number" value="10" id="example-number-input" />
+          </p>
+            
+          <a href="<%= item.permalink %>" target="_blank" class="btn btn-primary col-md-12 btn-lg ">Comprar</a>
+        </fieldset>
+    </div>
+</div><!-- end car-box-->

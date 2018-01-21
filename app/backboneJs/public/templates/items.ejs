@@ -1,0 +1,49 @@
+<% if (results.length > 0) { %>
+    <% for (var i=0; i < results.length; i++) {
+        var result = results[i]; %>
+        <div class="card-box col-md-12">
+            <meta itemprop="url" content="<%= result.permalink %>">    
+            <div id="<%= result.id %>" class="col-xs-12 col-md-12" itemscope itemtype="https://schema.org/Product">
+                <div class="float-left col-md-4">
+                    <div id="image-block">
+                        <span class="view-thumb">
+                            <img itemprop="image" src="<%= result.pictures %>" class="img-responsive" title="<%= result.title %>" alt="<%= result.title %>" role="presentation"/>
+                        </span>
+                    </div>
+                </div>
+                <div class="float-left col-md-6">
+                    <h1 itemprop="name" class="jumbotron-heading text-dark text-xs-center font-20"><%= result.title %></h1>
+                    <fieldset class="m-b-15" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                        <link itemprop="availability" href="https://schema.org/InStock"/>
+                        <span itemprop="price" content="<%= result.price %>" class="price font-20 text-md-left"><%= result.price %></span>
+                        <meta itemprop="priceCurrency" content="<%= result.currency %>" />
+                    </fieldset>
+                    <p role="description">
+                        <%= result.description %>
+                    </p>
+                </div>
+                <div class="float-left col-md-2">
+                    <span class="p-30 clearfix">
+                        <%= result.state %>
+                    </span>
+                    <span class="p-30 clearfix">
+                        <img src="/static/img/ic_shipping@2x.png.png" alt="Mercado Envio" itemprom="image"/>
+                        <% if(result.free_shipping) { %>
+                            Mercado Envio
+                        <% }else{ %>
+                            No tiene Envio
+                        <% } %>
+                    </span>
+                    <a href="/items/<%= result.id %>" class="btn btn-success col-md-12 btn-lg">Visualizar</a>
+                    <a href="<%= result.permalink %>" target="_blank" class="btn btn-primary col-md-12 btn-lg m-t-15">Comprar</a>
+                </div>
+            </div>
+        </div><!-- end car-box-->
+    <% } %>
+<% } else { %>
+    <div id="error" class="full-body-content">
+        <div class="center-content">
+            <h1>No hay publicaciones que coincidan con tu busqueda</h1>
+        </div>
+    </div>
+<% } %>

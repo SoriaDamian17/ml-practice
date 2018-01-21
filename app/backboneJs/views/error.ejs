@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie10 lt-ie9 ie8"><![endif]-->
+<!--[if IE 9]><html class="no-js lt-ie10 ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="es-AR" ng-app="app"><!--<![endif]-->
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Practica de front-end con framwork express.js">
+    <meta name="author" content="Damian Soria">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    
+    <link rel='stylesheet' href='/static/css/style.css' />
+    <link rel="manifest" href="/static/manifest.json">
+    <% include ./partials/header %>
+  </head>
+  <body ng-controller="loginController">
+    <% include ./partials/search %>
+        <div role="main" class="wrapper-page">
+            <div id="error" class="full-body-content">
+                <div class="center-content text-md-center">
+                    <span class=" text-dark font-10em">4</span>
+                    <i class="material-icons pos-rel font-160 t-45 l-15">search</i>
+                    <span class=" text-dark font-10em pos-rel">4</span>
+                    
+                    <h2>Prueba realizando una nueva busqueda.</h2>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- end wrapper page -->
+        <footer class="text-muted" role=”contentinfo” >
+            <div class="container">
+                <p class="float-right">
+                <a href="#">Back to top</a>
+                </p>
+                <p>Ml Practice example is &copy; DemoTest</p>        
+            </div>
+        </footer>
+        <!-- jQuery  -->
+  </body>
+</html>
