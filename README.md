@@ -28,7 +28,7 @@ como framwork del lado del servidor y utilizando [AngularJs](https://angularjs.o
 
 ### Comentarios relevantes
 
-Al momento de empezar el ejercicio realice una investigación sobre la tecnología React y angular, como tenia conocimiento ya trabajando sobre la tecnologia angular decidí trabajar sobre esta tecnologia ya que no tendría una curva de aprendizaje tan alta poder armar la parte de comunicación del cliente con angularJS y la parte del servidor con Express[documentación oficial de
+Al momento de empezar el ejercicio realice una investigación sobre la tecnología React y angular, como tenia conocimiento ya trabajando sobre la tecnologia angularJs, decidí trabajar sobre esta tecnologia, ya que no tendría una curva de aprendizaje tan alta para poder armar la parte de la comunicación del cliente con angularJS.La parte del servidor use el framework  Express[documentación oficial de
 express](http://expressjs.com/en/4x/api.html) & nodeJS(https://nodejs.org/es/), de esta forma me permitio poder avanzar sobre la maquetacion y desarrollo del api para la utilización de los diferentes recursos a consumir.
 Tambien se agrego una pantalla principal de login, que permite poder autenticarse con Mercado Libre para poder empezar a consumir los diferentes recursos que maneja la aplicación.
 

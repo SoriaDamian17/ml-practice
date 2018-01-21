@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie10 lt-ie9 ie8"><![endif]-->
+<!--[if IE 9]><html class="no-js lt-ie10 ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="es-AR" ng-app="app"><!--<![endif]-->
+  <head>
+    <% include ./partials/header %>
+  </head>
+  <body ng-controller="viewController">
+    <% include ./partials/search %>
+      <main role="main">
+        <section class="container container-fluid" role="product" data-type="grid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4 class="page-title text-dark">Producto Detalle</h4>
+                </div>
+            </div>
+            <% include ./partials/breadcrumb %> 
+            <div class="row">
+                <div class="card-box" itemscope itemtype="https://schema.org/Product">
+                    <meta itemprop="url" content="{{permalink}}">
+                    <div class="float-left col-xs-12 col-md-8">
+                        <div id="image">
+                            <span class="view-fullscreen">
+                                <img itemprop="image" src="{{pictures}}" class="img-responsive" title="Auricular Bluetooth" alt="Auricular Bluetooth" role="presentation"/>
+                            </span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <!-- Tab links -->
+                        <div class="tab">
+                            <button class="tablinks btn-primary col-xs-6 col-md-6" onclick="openCity(event, 'product_comments')">Descripción</button>
+                            <button class="tablinks btn-primary col-xs-6 col-md-6" onclick="openCity(event, 'questions')">Preguntas</button>
+                        </div>
+
+                        <div id="product_comments" class="tabcontent active" itemprop="description" style="display:block;">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mollis consequat urna ut fringilla. Quisque aliquam dictum diam, vitae consectetur nisl ullamcorper sed. Nunc in leo dapibus, convallis nulla ac, tempus ex. Vivamus id ante eu urna elementum pellentesque ac id tellus. Aenean tellus enim, feugiat in lectus vel, facilisis dictum dui. Vestibulum eu volutpat orci, in blandit justo. Etiam a pellentesque lorem. Sed lacinia iaculis arcu, ac ultrices ex sollicitudin sit amet. Integer mattis quam sit amet nulla laoreet, iaculis ultrices neque tristique. Phasellus ac feugiat erat, ut eleifend nulla. Nam eleifend at sem in placerat. Curabitur consequat neque non mattis porta.</p>
+                            <p>Suspendisse facilisis rutrum ultricies. Aenean posuere feugiat erat eu fermentum. Duis convallis nec ipsum a eleifend. Nulla facilisi. Aliquam aliquam aliquet dapibus. Duis elit velit, malesuada consectetur ultrices sit amet, pellentesque quis odio. Sed mattis porttitor ligula quis molestie. Aliquam sit amet sapien quis felis molestie tempor. In at iaculis nulla. Aliquam sed urna non libero sagittis sollicitudin id vel dolor. Etiam ultricies posuere gravida.</p> 
+                        </div>
+                        <!-- Tab content -->
+                        <div id="questions" class="tabcontent" >
+                            <h3 class="font-14">Cliente Prueba</h3>
+                            <p class="text-success"><strong class="text-dark">Pregunta:</strong>Hola, Tenes Stock?</p>
+                            <p class="text-dark"><strong>Mensaje:</strong>Hola, Me quede sin stock.Saludos</p>
+                        </div>
+                    </div>
+                    <div class="float-left col-xs-12 col-md-4">
+                        <span class="text-xs-center">{{condition}} - {{sold_quantity}} vendidos</span>
+                        <h1 itemprop="name" class="jumbotron-heading text-dark text-xs-center font-20" >{{title}}</h1>
+                        <fieldset class="m-t-15 m-b-15" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                            <link itemprop="availability" href="https://schema.org/InStock"/>
+                            <span itemprop="price" content="{{price.amount}}.{{price.decimal}}" class="price float-left">${{price.amount}}<sup>{{price.decimal}}</sup></span>
+                            <meta itemprop="priceCurrency" content="{{price.currency}}" />
+                        </fieldset>
+                        <fieldset class="m-t-15 m-b-15 text-md-center clearfix">
+                                <span class="">
+                                    <img src="/static/img/ic_shipping@2x.png.png" alt="Mercado Envio" itemprom="image"/>
+                                    {{product.free_shipping ? 'Mercado Envio' : 'No tiene Envio'}}
+                                </span>
+                        </fieldset>
+                        <fieldset class="clearfix">
+                          <p id="quantity_wanted_p">
+                            <input class="form-control-lg col-md-12 float-left " type="number" value="10" id="example-number-input" />
+                          </p>
+                            
+                          <a href="{{permalink}}" target="_blank" class="btn btn-primary col-md-12 btn-lg ">Comprar</a>                        
+                        </fieldset>
+                    </div>
+                </div><!-- end car-box-->
+            </div><!--end row-->
+            
+        </section>
+      </main>
+  
+      <% include ./partials/footer %>
+  </body>
+</html>
