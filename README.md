@@ -1,5 +1,5 @@
 # Test Front-End para MercadoLibre
-Ejercicio práctico de front-end para MercadoLibre. Se puede ver una version estable del proyecto [aqui](https://ml-practice.herokuapp.com).
+Ejercicio práctico de front-end para MercadoLibre. Se puede ver una version estable del proyecto [aqui](https://backbone-ml-practice.herokuapp.com).
 - [Ejercicio](#ejercicio)
  - [Especificaciones](#especificaciones)
  - [Implementación y tecnologías usadas](#implementaci%C3%B3n-y-tecnologias-usadas)
