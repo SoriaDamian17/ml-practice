@@ -16,7 +16,7 @@
             </div>
             <% include ./partials/breadcrumb %> 
             <div class="row">
-                <div class="card-box" itemscope itemtype="https://schema.org/Product">
+                <div class="card-box col-md-12" itemscope itemtype="https://schema.org/Product">
                     <meta itemprop="url" content="{{permalink}}">
                     <div class="float-left col-xs-12 col-md-8">
                         <div id="image">
@@ -32,8 +32,7 @@
                         </div>
 
                         <div id="product_comments" class="tabcontent active" itemprop="description" style="display:block;">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mollis consequat urna ut fringilla. Quisque aliquam dictum diam, vitae consectetur nisl ullamcorper sed. Nunc in leo dapibus, convallis nulla ac, tempus ex. Vivamus id ante eu urna elementum pellentesque ac id tellus. Aenean tellus enim, feugiat in lectus vel, facilisis dictum dui. Vestibulum eu volutpat orci, in blandit justo. Etiam a pellentesque lorem. Sed lacinia iaculis arcu, ac ultrices ex sollicitudin sit amet. Integer mattis quam sit amet nulla laoreet, iaculis ultrices neque tristique. Phasellus ac feugiat erat, ut eleifend nulla. Nam eleifend at sem in placerat. Curabitur consequat neque non mattis porta.</p>
-                            <p>Suspendisse facilisis rutrum ultricies. Aenean posuere feugiat erat eu fermentum. Duis convallis nec ipsum a eleifend. Nulla facilisi. Aliquam aliquam aliquet dapibus. Duis elit velit, malesuada consectetur ultrices sit amet, pellentesque quis odio. Sed mattis porttitor ligula quis molestie. Aliquam sit amet sapien quis felis molestie tempor. In at iaculis nulla. Aliquam sed urna non libero sagittis sollicitudin id vel dolor. Etiam ultricies posuere gravida.</p> 
+                            <p>{{ (description.length > 150)? (description | slice:0:150)+'..':(description) }}</p>
                         </div>
                         <!-- Tab content -->
                         <div id="questions" class="tabcontent" >

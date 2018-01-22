@@ -5,13 +5,17 @@
                 <img src="/static/img/Logo_ML.png" class="img-responsive" title="Mercadolibre" alt="Mercadolibre" role="presentation"/>
                 <strong class="p-left-15">Ml-Practice</strong>
             </a>
-            <div class="float-left col-xs-10 col-md-10">
+            <div class="float-left col-xs-8 col-md-8">
                     <form action="/items" class="input-append" ng-controller="formController">
                         <input type="text" name="search" class="form-control float-left col-md-10" value="" ng-model="query" placeholder="Busca tu producto..."/>
                         <button type="submit" class="float-left btn pos-abs">
                             <img itemprop="image" src="/static/img/ic_Search.png" alt="search"/>
                         </button>
                     </form>
+            </div>
+            <div class="flaot-left col-md-2" ng-controller="acountController">
+                <span class="float-left font-12 p-top-15">{{nickname}}</span>
+                <img src="/static/img/avatar.svg" width="40" class="float-left" itemprom="image" alt="avatar-user"/>
             </div>
         </div>       
     </div>

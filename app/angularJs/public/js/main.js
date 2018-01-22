@@ -3,11 +3,15 @@ app.controller('mainController', function($scope, $http){
     $http.get('/api/items')
     .success(function(data) {
             $scope.products = data.products.items;
-            //angular.forEach($scope.products, function(value, key) {
-                //$scope.getCat(value.category_id);
-            //});
             
-            console.log(data);
+            /*angular.forEach(data.products.items, function(value, key) {
+                let id = value.category;
+                value.description = 'prueba';
+                console.log(value.category);
+                
+            });*/
+            
+            //console.log($scope.products);
     })
     .error(function(data) {
             console.log('Error: ' + data);
@@ -19,9 +23,11 @@ app.controller('mainController', function($scope, $http){
         $(location).attr('href', path);
     };
 	$scope.getCat = function(id){
+        
         $http.get('/api/categories/' + id)
         .success(function(data) {
-            $scope.categoria_name = data.category.name;
+            //console.log(data.category.name);
+            $scope.category = data.category.name;
             //console.log(data.category.name);
             /*$(document).ready(function(){
                 
@@ -75,6 +81,21 @@ app.controller('mainController', function($scope, $http){
 	$scope.init();
  });
 
+ app.controller('acountController', function($scope, $http){
+    $http.get('/api/user')
+    .success(function(data) {
+            $scope.nickname = data.user.nickname;
+            //angular.forEach($scope.products, function(value, key) {
+                //$scope.getCat(value.category_id);
+            //});
+            
+            console.log(data);
+    })
+    .error(function(data) {
+            console.log('Error: ' + data);
+    });
+ });
+
  app.controller('formController', function($window, $scope, $http, $location){
     $scope.data = {};
     $scope.init = function(){
@@ -124,7 +145,7 @@ app.controller('mainController', function($scope, $http){
     $scope.init = function(){
 		$(document).ready(function(){
             var id_product = window.location.pathname.split('/')[2];
-            //console.log(id_product);
+            console.log(id_product);
             $scope.edit(id_product);
 		 });
     }
@@ -133,14 +154,17 @@ app.controller('mainController', function($scope, $http){
 		$http.get('/api/items/' + id)
         .success(function(data) {
             console.log(data);
+            var permalink_ssl = data.products.items.permalink.replace('http','https');
+            console.log(permalink_ssl);
             $scope.id = data.products.items.id;
             $scope.condition = data.products.items.condition;
             $scope.sold_quantity = data.products.items.sold_quantity;
             $scope.title = data.products.items.title;
-            $scope.permalink = data.products.items.permalink;
+            $scope.permalink = permalink_ssl;
             $scope.price = data.products.items.price;
             $scope.cantidad = data.products.items.available_quantity;
             $scope.pictures = data.products.items.pictures[0].source;
+            $scope.description = data.products.items.description;
         })
         .error(function(data) {
             console.log('Error: ' + data);
@@ -148,6 +172,20 @@ app.controller('mainController', function($scope, $http){
     };
 	$scope.init();
  });
+ var cate = getCategory('MLA72894');
+ console.log(cate);
+ function getCategory(id){
+    var path = location.protocol + '//' + location.host;
+    console.log(path + '/api/categories/' + id);
+    $.ajax({
+        dataType: "json",
+        url: path + '/api/categories/' + id,
+        data: {},
+        success: function( data ) {
+            return data.category.name;
+        }
+    });
+ }
 
  function getParameterByName(name, url) {
     if (!url) url = window.location.href;

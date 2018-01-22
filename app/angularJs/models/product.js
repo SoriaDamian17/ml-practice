@@ -44,6 +44,21 @@ router.get('/auth/mercadolibre/callback', function (req,res) {
     });
 });
 
+router.get('/user', function(req, res, next) {
+    let token = req.app.get('token');
+    var payload = jwt.decode(token, config.SecretToken);
+    var meliObject = new meli.Meli('', '', token);
+    meliObject.get('/users/me?access_token=' + payload.sub.accessToken, function (err, resp) {
+        //console.log(err, resp);
+        if(!resp){
+            res.json({"error" : "No se pudo obtener la informacion del usuario."});
+            return;
+        }
+        let info = resp;
+        res.json({user:info});
+    });
+});
+
 router.get('/categories', function(req, res, next) {
     let token = req.app.get('token');
     var payload = jwt.decode(token, config.SecretToken);
@@ -92,7 +107,7 @@ router.get('/items', function(req, res, next) {
             request('https://api.mercadolibre.com/items?ids=' + resp.results.toString(), function (error, response, body) {
                 if (!error && response.statusCode == 200) {                    
                     let data = JSON.parse(body);
-                    //console.log(data.length);
+                    console.log(data);
                     let author = {"firstname":"Damian","lastname":"Soria"};
                     let items = [];
                     for(var i = 0; i < data.length; i++) {
@@ -101,7 +116,7 @@ router.get('/items', function(req, res, next) {
                         items[i] = {
                             "id": prod.id,
                             "title": prod.title,
-                            "category":"",
+                            "category":prod.category_id,
                             "price": {
                                 "currency": prod.currency_id,
                                 "amount": prod.price,
@@ -115,32 +130,31 @@ router.get('/items', function(req, res, next) {
                             ],
                             "condition": prod.condition,
                             "free_shipping":prod.shipping.free_shipping,
-                            "description": "",
-                        };
-                    };
+                            "description":""
+                        } 
+                    }
                     let products = {
                         "author": author,
                         "items":items
-                    };
+                    }
                     res.json({products:products});
                 }
             });
         });
-    }else{
+    } else {
         request('https://api.mercadolibre.com/sites/MLA/search?q=' + query.toString(), function (error, response, body) {
             //console.log(error, response);
             if (!error && response.statusCode == 200) {
                 let data = JSON.parse(body);
                 let author = {"firstname":"Damian","lastname":"Soria"};
                 let items = [];
-                console.log('results:'+data.results[0].title);
+                let filters = data.filters;
                 for(var i = 0; i < data.results.length; i++) {
                     prod = data.results[i];
                     //console.log('results:'+prod.title);
                     items[i] = {
                         "id": prod.id,
                         "title": prod.title,
-                        "category":"",
                         "price": {
                             "currency": prod.currency_id,
                             "amount": prod.price,
@@ -157,29 +171,25 @@ router.get('/items', function(req, res, next) {
                         "description": "",
                         "state": prod.seller_address.state.name
                     };
-                    
-                    /*meliObject.get('categories/' + prod.category_id, function (err, resp) {
-                        //console.log(resp.name);
-                        req.app.set('category_name', resp.name);
-                    });
-                    console.log(req.app.get('category_name'));
-                    items[i]['category'] = req.app.get('category_name');*/
-                };
+
+                }
                 let products = {
                     "author": author,
+                    "categories":filters,
                     "items":items
                 };
+                //res.setHeader('content-type', 'application/json');
                 res.json({search:products});
             }
         });
     }
-    //console.log('Id User:' + payload.sub.id);    
+
 });
 
 router.get('/items/:id', function(req, res, next) {
     let token = req.app.get('token');
     let id = req.params.id;
-    console.log(id);
+    //console.log(id);
     var payload = jwt.decode(token, config.SecretToken);
     var meliObject = new meli.Meli('', '', token);
     if(id){
@@ -191,7 +201,7 @@ router.get('/items/:id', function(req, res, next) {
                 let items = {
                     "id": prod.id,
                     "title": prod.title,
-                    "category":"",
+                    "category":prod.category_id,
                     "price": {
                         "currency": prod.currency_id,
                         "amount": prod.price,
@@ -205,22 +215,20 @@ router.get('/items/:id', function(req, res, next) {
                     ],
                     "condition": prod.condition,
                     "free_shipping":prod.shipping.free_shipping,
-                    "sold_quantity":prod.sold_quantity,
-                    "description": "",
+                    "sold_quantity":prod.sold_quantity
                 };
-                let description = request('https://api.mercadolibre.com/items/' + id +'/description', function(err, resp, body, text) {
-                    if (!error && response.statusCode == 200) {
-                        text = JSON.parse(body);
-                        //items[i]['description'] = text.plain_text;
-                        res.json({description:text});
+                request('https://api.mercadolibre.com/items/' + id +'/description', function(err, resp, body) {
+                    if (!err && resp.statusCode == 200) {
+                        let text = JSON.parse(body);
+                        items.description = text.plain_text.replace(/[^a-zA-Z 0-9.]+/g,' ');
+                        
+                        let products = {
+                            "author": author,
+                            "items":items
+                        };
+                        res.json({products:products});
                     }
                 });
-                console.log(description);
-                let products = {
-                    "author": author,
-                    "items":items
-                };
-                res.json({products:products});
             }
         });
     } else {
@@ -228,13 +236,29 @@ router.get('/items/:id', function(req, res, next) {
     }
 });
 
-function getDescription(id, callback) {
-    var url = 'https://api.mercadolibre.com/items/' + id +'/description';
-    request(url, function(err, response, body) {
-      // JSON body
-      if(err) { console.log(err); callback(true); return; }
-      //obj = JSON.parse(body);
-      callback(false, body);
-    });
-};
+router.get('/items/:id/description', function(req, res, next) {
+    let token = req.app.get('token');
+    let id = req.params.id;
+    //console.log(id);
+    var payload = jwt.decode(token, config.SecretToken);
+    var meliObject = new meli.Meli('', '', token);
+    if(id){
+        meliObject.get('/items/' + id + '/description', function (err, resp) {
+            if(!resp){
+                res.json({"error" : "No se pudo obtener el listado de productos."});
+                return;
+            }
+                request('https://api.mercadolibre.com/items/' + id +'/description', function(err, resp, body) {
+                    if (!err && resp.statusCode == 200) {
+                        let text = JSON.parse(body);
+                            text = text.plain_text.replace(/[^a-zA-Z 0-9.]+/g,' ');
+                        
+                        res.json({description:text});
+                    }
+                });
+        });
+    } else {
+        res.json({"error" : "No se pudo obtener el detalle del producto."});
+    }
+});
 module.exports = router; 

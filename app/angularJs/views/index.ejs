@@ -8,15 +8,17 @@
   <body ng-controller="loginController">
     <% include ./partials/search %>
       <div role="main" class="wrapper-page">
-            <div class="text-xl-center text-md-center text-xs-center">
-                <img src="/static/img/avatar.svg" alt="Avatar"/>
-                <h4 class="m-t-20">¡Hola! Ingresá a Mercadolibre para ver tus productos</h4>   
-            </div>
-        	<div class="account-bg">
+            
+        	<div class="card-box">
+                <div class="text-xl-center text-md-center text-xs-center">
+                    <img src="/static/img/avatar.svg" alt="Avatar" itempprom="image" role="presentation"/>
+                    <h2 class="m-t-20">¡Hola!</h2>
+                    <h4 class="m-t-20">Ingresá a Mercadolibre para ver tus productos</h4>   
+                </div>
                 <div class="mb-0">
                     <form action="#" data-parsley-validate="" novalidate="">
-                        <div class="form-group m-b-0">
-                            <a class="btn btn-ml waves-effect waves-light btn-lg col-xs-12 col-md-12 col-lg-12" ng-click="login()">
+                        <div class="form-group m-t-20 m-b-0">
+                            <a class="btn btn-primary text-white btn-lg col-xs-12 col-md-12 col-lg-12" ng-click="login()">
                                 <span class="btn-label pull-left"><i class="fa fa-lock"></i></span> Ingresar
                             </a>
                         </div>
@@ -27,5 +29,10 @@
         </div>
         <!-- end wrapper page -->
       <% include ./partials/footer %>
+      <script>
+          $(document).ready(function(){
+              $('input[name="search"]').attr('disabled','disabled');
+          });
+      </script>
   </body>
 </html>

@@ -10,19 +10,21 @@
     <title><%= title %></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
     
-    <link rel='stylesheet' href='/css/style.css' />
-    <link rel="manifest" href="./manifest.json">
+    <link rel='stylesheet' href='/static/css/style.css' />
+    <link rel="manifest" href="/static/manifest.json">
     <% include ./partials/header %>
   </head>
   <body ng-controller="loginController">
     <% include ./partials/search %>
         <div role="main" class="wrapper-page">
             <div id="error" class="full-body-content">
-                <div class="center-content">
-                    <h1>Ha ocurrido un error inesperado</h1>
-                    <ul id="suggested-actions">
-                        <li>Prueba realizando una nueva busqueda.</li>
-                    </ul>
+                <div class="center-content text-md-center">
+                    <span class=" text-dark font-10em">4</span>
+                    <i class="material-icons pos-rel font-160 t-45 l-15">search</i>
+                    <span class=" text-dark font-10em pos-rel">4</span>
+                    
+                    <h2>Prueba realizando una nueva busqueda.</h2>
+                    
                 </div>
             </div>
         </div>

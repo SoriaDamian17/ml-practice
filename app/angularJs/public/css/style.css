@@ -2073,6 +2073,9 @@ a.btn:focus {
 .p-left-15 {
   padding-left: 15px !important; }
 
+.p-top-15 {
+  padding-top: 15px !important; }
+
 .m-0 {
   margin: 0 !important; }
 
@@ -2148,11 +2151,29 @@ a.btn:focus {
 .font-25 {
   font-size: 25px; }
 
+.font-40 {
+  font-size: 40px; }
+
+.font-10em {
+  font-size: 10em; }
+
+.font-160 {
+  font-size: 160px !important; }
+
 .pos-rel {
-  position: absolute; }
+  position: relative; }
 
 .pos-abs {
   position: absolute; }
+
+.t-20 {
+  top: 20px; }
+
+.t-45 {
+  top: 45px; }
+
+.l-15 {
+  left: 15px; }
 
 .display-block {
   display: block; }
