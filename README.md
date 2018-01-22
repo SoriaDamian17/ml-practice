@@ -79,7 +79,17 @@ $ npm start
 
 ### Aplicación Mercadolibre
 
-Para nuestro ejercicio en AngularJs deberemos configurar nuestra aplicacion ML ingresando a http://applications.mercadolibre.com y crearemos nuestra aplicacion para poder configurarla en nuestro proyecto.
+Para nuestro ejercicio en AngularJs deberemos configurar nuestra aplicacion ML ingresando a http://applications.mercadolibre.com y crearemos nuestra aplicacion para poder configurarla en nuestro proyecto.Para poder configurar las credenciales tendremos que ir a la carpeta models/oauth.js y cambiar las credenciales APP_ID y SECRECT_KEY
+
+```
+var ids = {
+  app_id:'ML_APP_ID',
+  SecretToken: "ML_SECRECT_KEY",
+  services: {
+    MercadoLibre: "mercadolibre",
+  }
+};
+```
 
 Tendremos que darle permisos de lectura y tildar el tópico de items
 En caso de probar el ejercicio de manera local deberemos configurar en el campo Redirect URI * la siguiente url http://localhost:3000/api/auth/mercadolibre/callback
