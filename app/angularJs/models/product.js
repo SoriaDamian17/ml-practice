@@ -93,10 +93,56 @@ router.get('/categories/:id', function(req, res, next) {
 router.get('/items', function(req, res, next) {
     let token = req.app.get('token');
     let query = req.query.search;
-    console.log(query);
+    //console.log(query);
     var payload = jwt.decode(token, config.SecretToken);
-    var meliObject = new meli.Meli('', '', token);
+    let items = [];
+    let author = {"firstname":"Damian","lastname":"Soria"};
+    function getDescription(itemProd, count, filters) {
+        request('https://api.mercadolibre.com/items/' + itemProd.id +'/description', function(err, resp, body) {
+            if (!err && resp.statusCode == 200) {
+                //console.log(itemProd);
+                let text = JSON.parse(body);
+                    text = text.plain_text.replace(/[^a-zA-Z 0-9.]+/g,' ');
+                item = {
+                    "id": itemProd.id,
+                    "title": itemProd.title,
+                    "price": {
+                        "currency": itemProd.currency_id,
+                        "amount": itemProd.price,
+                        "decimal":"00"    
+                    },
+                    "permalink": itemProd.permalink,
+                    "pictures": [
+                        {
+                            "source": itemProd.thumbnail
+                        }
+                    ],
+                    "condition": itemProd.condition,
+                    "free_shipping": itemProd.shipping.free_shipping,
+                    "description": text,
+                    "state": itemProd.seller_address.state.name
+                };
+                
+                    //item.description = text;
+                    items.push(item);
+                    
+                    //console.log(count);
+                if (count == 3) {
+                    let products = {
+                        "author": author,
+                        "categories":filters,
+                        "items":items
+                    };
+                    //res.setHeader('content-type', 'application/json');
+                    res.json({search:products});
+                }
+                
+            }
+        });
+
+    }
     if(!req.query.search){
+        var meliObject = new meli.Meli('', '', token);
         meliObject.get('/users/' + payload.sub.id + '/items/search?access_token='+payload.sub.accessToken, function (err, resp) {
             //console.log(err, resp);
             if(!resp.results){
@@ -107,37 +153,15 @@ router.get('/items', function(req, res, next) {
             request('https://api.mercadolibre.com/items?ids=' + resp.results.toString(), function (error, response, body) {
                 if (!error && response.statusCode == 200) {                    
                     let data = JSON.parse(body);
-                    console.log(data);
-                    let author = {"firstname":"Damian","lastname":"Soria"};
-                    let items = [];
+                    let filters = data.filters;
+                    let count = 0;
                     for(var i = 0; i < data.length; i++) {
                         prod = data[i];
+                        var permalink_ssl = prod.permalink.replace('http','https');
                         //console.log('results:'+prod.title);
-                        items[i] = {
-                            "id": prod.id,
-                            "title": prod.title,
-                            "category":prod.category_id,
-                            "price": {
-                                "currency": prod.currency_id,
-                                "amount": prod.price,
-                                "decimal":"00"    
-                            },
-                            "permalink": prod.permalink,
-                            "pictures": [
-                                {
-                                    "source": prod.thumbnail
-                                }
-                            ],
-                            "condition": prod.condition,
-                            "free_shipping":prod.shipping.free_shipping,
-                            "description":""
-                        } 
+                        getDescription(prod, count, filters);
+                        count++;
                     }
-                    let products = {
-                        "author": author,
-                        "items":items
-                    }
-                    res.json({products:products});
                 }
             });
         });
@@ -146,40 +170,16 @@ router.get('/items', function(req, res, next) {
             //console.log(error, response);
             if (!error && response.statusCode == 200) {
                 let data = JSON.parse(body);
-                let author = {"firstname":"Damian","lastname":"Soria"};
-                let items = [];
                 let filters = data.filters;
+                let count = 0;
                 for(var i = 0; i < data.results.length; i++) {
                     prod = data.results[i];
                     //console.log('results:'+prod.title);
-                    items[i] = {
-                        "id": prod.id,
-                        "title": prod.title,
-                        "price": {
-                            "currency": prod.currency_id,
-                            "amount": prod.price,
-                            "decimal":"00"    
-                        },
-                        "permalink": prod.permalink,
-                        "pictures": [
-                            {
-                                "source": prod.thumbnail
-                            }
-                        ],
-                        "condition": prod.condition,
-                        "free_shipping": prod.shipping.free_shipping,
-                        "description": "",
-                        "state": prod.seller_address.state.name
-                    };
-
+                    var permalink_ssl = prod.permalink.replace('http','https');
+                        //console.log('results:'+prod.title);
+                        getDescription(prod, count, filters);
+                        count++;
                 }
-                let products = {
-                    "author": author,
-                    "categories":filters,
-                    "items":items
-                };
-                //res.setHeader('content-type', 'application/json');
-                res.json({search:products});
             }
         });
     }

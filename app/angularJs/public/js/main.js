@@ -2,15 +2,13 @@ var app = angular.module('app', []);
 app.controller('mainController', function($scope, $http){
     $http.get('/api/items')
     .success(function(data) {
-            $scope.products = data.products.items;
-            
-            /*angular.forEach(data.products.items, function(value, key) {
-                let id = value.category;
-                value.description = 'prueba';
-                console.log(value.category);
-                
-            });*/
-            
+        console.log(data.search);
+            $scope.products = data.search.items;
+            angular.forEach(data.search.items, function(value, key) {
+                var thumb_ssl = value.pictures[0].source.replace('http','https');
+                value.pictures[0].source = thumb_ssl;
+                console.log(value.pictures[0].source);
+            });
             //console.log($scope.products);
     })
     .error(function(data) {
@@ -18,7 +16,7 @@ app.controller('mainController', function($scope, $http){
     });
     $scope.view = function(id_product){
         console.log('Redirecciono');
-        var path = location.protocol + '//' + location.host + '/items/' + id_product;
+        var path = 'https://' + location.host + '/items/' + id_product;
         //console.log(path);
         $(location).attr('href', path);
     };
@@ -36,28 +34,8 @@ app.controller('mainController', function($scope, $http){
         .error(function(data) {
             console.log('Error: ' + data);
         });
-    },
-    $scope.edit = function(id) {
-		$http.get('/api/items/' + id)
-        .success(function(data) {
-            console.log(data);
-            $scope.id = data.id;
-            $scope.title = data.title;
-            $scope.price = data.price;
-            $scope.cantidad = data.available_quantity;
-        })
-        .error(function(data) {
-            console.log('Error: ' + data);
-        });
-    };
-    $scope.menu = function(page){
-        $(document).ready(function(){
-            var path = location.protocol + '//' + location.host + '/admin/' + page;
-            //console.log(path);
-            $(location).attr('href', path);
-        });
-    };    
- });
+    }
+});
  
  app.controller('loginController', function($scope, $http){
 	$scope.data = {};
@@ -70,7 +48,8 @@ app.controller('mainController', function($scope, $http){
         $(document).ready(function(){
         //console.log($scope.data);
         console.log('Login Auth Mercadolibre');
-            var path = location.protocol + '//' + location.host;
+            var https = true;
+            var path = 'https://' + location.host;
             console.log(path);
 		    var authCallback = path + '/api/auth/mercadolibre/callback';
             var redirectUrl = 'https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=152158119883526&redirect_uri='+authCallback;
@@ -121,7 +100,8 @@ app.controller('mainController', function($scope, $http){
     };
     $scope.view = function(id_product){
         console.log('Redirecciono');
-        var path = location.protocol + '//' + location.host + '/items/' + id_product;
+        var https = true;
+        var path = (https ? 'https:' : location.protocol) + '//' + location.host;
         //console.log(path);
         $(location).attr('href', path);
     };
@@ -144,9 +124,10 @@ app.controller('mainController', function($scope, $http){
     $scope.data = {};
     $scope.init = function(){
 		$(document).ready(function(){
-            var id_product = window.location.pathname.split('/')[2];
+            var id_product = location.pathname.split('/')[2];
             console.log(id_product);
             $scope.edit(id_product);
+            //$scope.edit('MLA681597400');
 		 });
     }
     $scope.edit = function(id) {
@@ -172,10 +153,10 @@ app.controller('mainController', function($scope, $http){
     };
 	$scope.init();
  });
- var cate = getCategory('MLA72894');
- console.log(cate);
+ 
  function getCategory(id){
-    var path = location.protocol + '//' + location.host;
+    var https = true;
+    var path = (https ? 'https:' : location.protocol) + '//' + location.host;
     console.log(path + '/api/categories/' + id);
     $.ajax({
         dataType: "json",
