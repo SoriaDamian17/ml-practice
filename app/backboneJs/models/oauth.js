@@ -1,6 +1,6 @@
 var ids = {
-  app_id:'152158119883526',
-  SecretToken: "kOhwfKY50W0vs45aU8uM9JsByhLyoJrU",
+  app_id:'APP_ID',
+  SecretToken: "APP_SECRET_KEY",
   services: {
     MercadoLibre: "mercadolibre",
   }

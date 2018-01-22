@@ -20,7 +20,6 @@ window.main.product = Backbone.View.extend({
     getProduct: function (response) {
         console.log(response);
         var item = response.products.items;
-        //this.updateTitle(item);
 
         var condition = item.condition === 'new' ? 'Nuevo' : 'Usado';
         var amountSoldString = item.sold_quantity === 1 ? ' vendido' :  ' vendidos';
@@ -70,11 +69,10 @@ window.main.products = Backbone.View.extend({
         this.render();
     },
     getProducts: function (response) {
-        //console.log(response);
-      this.categories = response.search.categories;
-      
+        console.log(response);
+      this.categories = response.search.categories[0].values;
       this.products = response.search.items.map(function (result) {
-          console.log(result);
+          //console.log(result);
         var currency = result.price.currency === 'ARS' ? '' : result.price.currency;
         var decimalsInt = result.price.decimal;
         var decimalsString = result.price.decimal.toString();
@@ -101,7 +99,7 @@ window.main.products = Backbone.View.extend({
     },
     render: function () {
         var html;
-            html = this.template({categories: this.categories, results: this.products});
+            html = this.template({categories: this.categories[0].path_from_root, results: this.products});
         this.$el.html(html);
         /*if (this.template && this.results) {
           html = this.template({categories: this.categories, results: this.results});

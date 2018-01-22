@@ -73,24 +73,27 @@ router.get('/items', function(req, res, next) {
     let items = [];
     let author = {"firstname":"Damian","lastname":"Soria"};
     
-    function getDescription(itemProd, count, filters) {
+    function getDescription(itemProd, count, filters, total) {
         request('https://api.mercadolibre.com/items/' + itemProd.id +'/description', function(err, resp, body) {
             if (!err && resp.statusCode == 200) {
                 //console.log(itemProd);
                 let text = JSON.parse(body);
                     text = text.plain_text.replace(/[^a-zA-Z 0-9.]+/g,' ');
+                    text = text.substring(0, 150);
+                    text = text + '...';
+                    
                 item = {
                     "id": itemProd.id,
                     "title": itemProd.title,
                     "price": {
                         "currency": itemProd.currency_id,
                         "amount": itemProd.price,
-                        "decimal":"00"    
+                        "decimal":"00"
                     },
                     "permalink": itemProd.permalink,
                     "pictures": [
                         {
-                            "source": itemProd.thumbnail
+                            "source": itemProd.thumbnail.replace('http','https')
                         }
                     ],
                     "condition": itemProd.condition,
@@ -103,7 +106,7 @@ router.get('/items', function(req, res, next) {
                     items.push(item);
                     
                     //console.log(count);
-                if (count == 3) {
+                if (count == total) {
                     let products = {
                         "author": author,
                         "categories":filters,
@@ -118,18 +121,19 @@ router.get('/items', function(req, res, next) {
 
     }
 
-    request('https://api.mercadolibre.com/sites/MLA/search?q=' + query.toString(), function (error, response, body) {
+    request('https://api.mercadolibre.com/sites/MLA/search?q=' + query.toString() + '&limit=4', function (error, response, body) {
         //console.log(error, response);
         if (!error && response.statusCode == 200) {
             let data = JSON.parse(body);
             let item = {};
             let filters = data.filters;
-            let count = 0;
+            let total = data.results.length;
+            let count = 1;
             
             for(var i = 0; i < data.results.length; i++) {
                 prod = data.results[i];
                 //console.log('results:'+prod.title);
-                getDescription(prod, count, filters);
+                getDescription(prod, count, filters, total);
                 count++;
 
             }

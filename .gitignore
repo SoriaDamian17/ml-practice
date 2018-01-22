@@ -1,1 +1,4 @@
-/app/angularJs/models/oauth.js
+# ignore config app mercadolibre
+app/angularJs/models/oauth.js
+# ignore modules dependentias
+app/backboneJs/node_modules
