@@ -1,3 +1,10 @@
+<% if (categories && categories.length > 0) { %>
+    <ol role="navigation" aria-label="breadcrumb" class="breadcrumb p-0">
+        <% for (var i=0; i < categories.length; i++) { %>
+            <li role="menuitem" class="breadcrumb-item"><%= categories[i] %></li>
+        <% } %>
+    </ol>
+<% } %>
 <% if (results.length > 0) { %>
     <% for (var i=0; i < results.length; i++) {
         var result = results[i]; %>
