@@ -41,7 +41,7 @@ Para poder hostear los ejercicios se utilizo Heroku[heroku](https://www.heroku.c
 [Ml-practice-backbone](https://backbone-ml-practice.herokuapp.com) BackboneJS
 
 ### Pendientes
--- Quedo pendiente poder terminar de agregar al node api/items/search?, el atributo description para poder mostrarlo en el listado de los productos.
+--
 
 ## Setup
 Como dependencia del proyecto se encuentra [Nodejs](https://nodejs.org/es/) > v6.11.13 Para tener una instalación que
